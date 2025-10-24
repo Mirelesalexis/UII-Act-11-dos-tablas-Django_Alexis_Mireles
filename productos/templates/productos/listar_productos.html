@@ -1,0 +1,34 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}Productos | Elektra{% endblock %}
+{% block contenido %}
+<div class="page-header">
+    <h2>Inventario de Productos</h2>
+    <a href="{% url 'crear_producto' %}" class="btn btn-primary">+ Agregar Producto</a>
+</div>
+
+<div class="product-grid">
+    {% for producto in productos %}
+    <div class="product-card">
+        <a href="{% url 'detalle_producto' producto.id_producto %}">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_producto }}" class="product-img">
+            {% else %}
+                <div class="product-placeholder">📦</div>
+            {% endif %}
+            <div class="product-info">
+                <h3>{{ producto.nombre_producto }}</h3>
+                <p class="product-category">{{ producto.categoria }}</p>
+                <p class="product-price">${{ producto.precio }}</p>
+                <p class="product-stock">Stock: {{ producto.stock }}</p>
+                <p class="product-supplier">Proveedor: {{ producto.id_proveedor.nombre }}</p>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <div class="no-products">
+        <p>No hay productos registrados.</p>
+        <a href="{% url 'crear_producto' %}" class="btn btn-primary">Agregar Primer Producto</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

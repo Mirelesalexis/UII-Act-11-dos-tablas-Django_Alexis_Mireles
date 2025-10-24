@@ -1,0 +1,35 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}Eliminar Producto | Elektra{% endblock %}
+{% block contenido %}
+<div class="confirmation-container">
+    <div class="confirmation-card">
+        <div class="confirmation-icon">⚠️</div>
+        <h2>Confirmar Eliminación</h2>
+        <p>¿Estás seguro de que quieres eliminar el producto <strong>"{{ producto.nombre_producto }}"</strong>?</p>
+        
+        <div class="product-preview">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_producto }}" class="preview-img">
+            {% else %}
+                <div class="preview-placeholder">📦</div>
+            {% endif %}
+            <div class="preview-info">
+                <h3>{{ producto.nombre_producto }}</h3>
+                <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
+                <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                <p><strong>Stock:</strong> {{ producto.stock }}</p>
+            </div>
+        </div>
+
+        <p class="warning-text">Esta acción no se puede deshacer y se perderán todos los datos del producto.</p>
+
+        <form method="post" class="confirmation-form">
+            {% csrf_token %}
+            <div class="confirmation-actions">
+                <button type="submit" class="btn btn-danger">🗑️ Sí, Eliminar Producto</button>
+                <a href="{% url 'detalle_producto' producto.id_producto %}" class="btn btn-secondary">↶ Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

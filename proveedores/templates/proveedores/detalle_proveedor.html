@@ -1,0 +1,75 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}{{ proveedor.nombre }} | Elektra{% endblock %}
+{% block contenido %}
+<article class="supplier-detail">
+    <div class="supplier-header">
+        <div class="supplier-icon-large">🏢</div>
+        <div class="supplier-info">
+            <h1>{{ proveedor.nombre }}</h1>
+            <div class="supplier-meta">
+                <span class="supplier-country">📍 {{ proveedor.pais }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="supplier-details-grid">
+        <div class="detail-card">
+            <h3>📞 Información de Contacto</h3>
+            <div class="contact-info">
+                <p><strong>Teléfono:</strong> {{ proveedor.telefono }}</p>
+                <p><strong>Email:</strong> <a href="mailto:{{ proveedor.email }}">{{ proveedor.email }}</a></p>
+                <p><strong>Dirección:</strong></p>
+                <p class="address">{{ proveedor.direccion }}</p>
+            </div>
+        </div>
+
+        <div class="detail-card">
+            <h3>📊 Estadísticas</h3>
+            <div class="stats-info">
+                <p><strong>Total de Productos:</strong> {{ productos.count }}</p>
+                <p><strong>Proveedor desde:</strong> Sistema Elektra</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="products-section">
+        <div class="section-header">
+            <h2>📦 Productos de este Proveedor</h2>
+            <span class="product-count">{{ productos.count }} producto(s)</span>
+        </div>
+
+        {% if productos %}
+        <div class="supplier-products-grid">
+            {% for producto in productos %}
+            <div class="supplier-product-card">
+                <a href="{% url 'detalle_producto' producto.id_producto %}">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_producto }}" class="product-thumb">
+                    {% else %}
+                        <div class="product-thumb-placeholder">📦</div>
+                    {% endif %}
+                    <div class="product-info">
+                        <h4>{{ producto.nombre_producto }}</h4>
+                        <p class="product-category">{{ producto.categoria }}</p>
+                        <p class="product-price">${{ producto.precio }}</p>
+                        <p class="product-stock">Stock: {{ producto.stock }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-products">
+            <p>Este proveedor no tiene productos registrados.</p>
+            <a href="{% url 'crear_producto' %}" class="btn btn-primary">➕ Agregar Producto</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'proveedores:editar_proveedor' proveedor.id_proveedor %}" class="btn btn-secondary">✏️ Editar Proveedor</a>
+        <a href="{% url 'proveedores:borrar_proveedor' proveedor.id_proveedor %}" class="btn btn-danger">🗑️ Eliminar Proveedor</a>
+        <a href="{% url 'proveedores:listar_proveedores' %}" class="btn">← Volver a Proveedores</a>
+    </div>
+</article>
+{% endblock %}

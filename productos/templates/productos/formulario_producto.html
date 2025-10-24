@@ -1,0 +1,83 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}{{ titulo }} | Elektra{% endblock %}
+{% block contenido %}
+<div class="form-container">
+    <div class="page-header">
+        <h2>{{ titulo }}</h2>
+        <a href="{% url 'listar_productos' %}" class="btn">← Volver</a>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="form-styled">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.nombre_producto.id_for_label }}">{{ form.nombre_producto.label }}</label>
+            {{ form.nombre_producto }}
+            {% if form.nombre_producto.errors %}
+                <div class="error">{{ form.nombre_producto.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.categoria.id_for_label }}">{{ form.categoria.label }}</label>
+            {{ form.categoria }}
+            {% if form.categoria.errors %}
+                <div class="error">{{ form.categoria.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.precio.id_for_label }}">{{ form.precio.label }}</label>
+                {{ form.precio }}
+                {% if form.precio.errors %}
+                    <div class="error">{{ form.precio.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.stock.id_for_label }}">{{ form.stock.label }}</label>
+                {{ form.stock }}
+                {% if form.stock.errors %}
+                    <div class="error">{{ form.stock.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.id_proveedor.id_for_label }}">{{ form.id_proveedor.label }}</label>
+            {{ form.id_proveedor }}
+            {% if form.id_proveedor.errors %}
+                <div class="error">{{ form.id_proveedor.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.descripcion.id_for_label }}">{{ form.descripcion.label }}</label>
+            {{ form.descripcion }}
+            {% if form.descripcion.errors %}
+                <div class="error">{{ form.descripcion.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.imagen.id_for_label }}">{{ form.imagen.label }}</label>
+            {{ form.imagen }}
+            {% if form.imagen.errors %}
+                <div class="error">{{ form.imagen.errors }}</div>
+            {% endif %}
+            {% if form.instance.imagen %}
+                <div class="current-image">
+                    <p>Imagen actual:</p>
+                    <img src="{{ form.instance.imagen.url }}" alt="Imagen actual" style="max-width: 200px; margin-top: 10px;">
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Guardar Producto</button>
+            <a href="{% url 'listar_productos' %}" class="btn">❌ Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

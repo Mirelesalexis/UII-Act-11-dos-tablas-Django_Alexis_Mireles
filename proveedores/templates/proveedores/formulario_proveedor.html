@@ -1,0 +1,59 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}{{ titulo }} | Elektra{% endblock %}
+{% block contenido %}
+<div class="form-container">
+    <div class="page-header">
+        <h2>{{ titulo }}</h2>
+        <a href="{% url 'proveedores:listar_proveedores' %}" class="btn">← Volver</a>
+    </div>
+
+    <form method="post" class="form-styled">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.nombre.id_for_label }}">{{ form.nombre.label }}</label>
+            {{ form.nombre }}
+            {% if form.nombre.errors %}
+                <div class="error">{{ form.nombre.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.pais.id_for_label }}">{{ form.pais.label }}</label>
+            {{ form.pais }}
+            {% if form.pais.errors %}
+                <div class="error">{{ form.pais.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.telefono.id_for_label }}">{{ form.telefono.label }}</label>
+            {{ form.telefono }}
+            {% if form.telefono.errors %}
+                <div class="error">{{ form.telefono.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.direccion.id_for_label }}">{{ form.direccion.label }}</label>
+            {{ form.direccion }}
+            {% if form.direccion.errors %}
+                <div class="error">{{ form.direccion.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Guardar Proveedor</button>
+            <a href="{% url 'proveedores:listar_proveedores' %}" class="btn">❌ Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

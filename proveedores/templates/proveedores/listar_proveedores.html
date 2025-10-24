@@ -1,0 +1,30 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}Proveedores | Elektra{% endblock %}
+{% block contenido %}
+<div class="page-header">
+    <h2>Lista de Proveedores</h2>
+    <a href="{% url 'proveedores:crear_proveedor' %}" class="btn btn-primary">+ Agregar Proveedor</a>
+</div>
+
+<div class="supplier-grid">
+    {% for proveedor in proveedores %}
+    <div class="supplier-card">
+        <a href="{% url 'proveedores:detalle_proveedor' proveedor.id_proveedor %}">
+            <div class="supplier-icon">🏢</div>
+            <div class="supplier-info">
+                <h3>{{ proveedor.nombre }}</h3>
+                <p class="supplier-country">{{ proveedor.pais }}</p>
+                <p class="supplier-email">{{ proveedor.email }}</p>
+                <p class="supplier-phone">{{ proveedor.telefono }}</p>
+                <p class="supplier-products">Productos: {{ proveedor.productos.count }}</p>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <div class="no-suppliers">
+        <p>No hay proveedores registrados.</p>
+        <a href="{% url 'proveedores:crear_proveedor' %}" class="btn btn-primary">Agregar Primer Proveedor</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

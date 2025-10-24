@@ -1,0 +1,51 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}{{ producto.nombre_producto }} | Elektra{% endblock %}
+{% block contenido %}
+<article class="product-detail">
+    <div class="product-banner">
+        {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre_producto }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">📦</div>
+        {% endif %}
+        <div class="product-info">
+            <h1>{{ producto.nombre_producto }}</h1>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Categoría:</strong>
+                    <span>{{ producto.categoria }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Precio:</strong>
+                    <span class="price">${{ producto.precio }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Stock:</strong>
+                    <span class="stock {% if producto.stock < 10 %}low-stock{% endif %}">{{ producto.stock }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Proveedor:</strong>
+                    <span>
+                        <a href="{% url 'proveedores:detalle_proveedor' producto.id_proveedor.id_proveedor %}">
+                            {{ producto.id_proveedor.nombre }}
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if producto.descripcion %}
+    <div class="description-section">
+        <h3>Descripción</h3>
+        <p>{{ producto.descripcion }}</p>
+    </div>
+    {% endif %}
+
+    <div class="detail-actions">
+        <a href="{% url 'editar_producto' producto.id_producto %}" class="btn btn-secondary">✏️ Editar</a>
+        <a href="{% url 'borrar_producto' producto.id_producto %}" class="btn btn-danger">🗑️ Borrar</a>
+        <a href="{% url 'listar_productos' %}" class="btn">← Volver</a>
+    </div>
+</article>
+{% endblock %}

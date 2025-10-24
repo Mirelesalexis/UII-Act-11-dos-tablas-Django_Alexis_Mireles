@@ -1,0 +1,51 @@
+{% extends 'productos/base.html' %}
+{% block titulo %}Eliminar Proveedor | Elektra{% endblock %}
+{% block contenido %}
+<div class="confirmation-container">
+    <div class="confirmation-card">
+        <div class="confirmation-icon">🚨</div>
+        <h2>Confirmar Eliminación de Proveedor</h2>
+        
+        <div class="supplier-preview">
+            <div class="supplier-icon-large">🏢</div>
+            <div class="preview-info">
+                <h3>{{ proveedor.nombre }}</h3>
+                <p><strong>País:</strong> {{ proveedor.pais }}</p>
+                <p><strong>Email:</strong> {{ proveedor.email }}</p>
+                <p><strong>Teléfono:</strong> {{ proveedor.telefono }}</p>
+                <p><strong>Productos asociados:</strong> {{ proveedor.productos.count }}</p>
+            </div>
+        </div>
+
+        {% if proveedor.productos.count > 0 %}
+        <div class="warning-alert">
+            <h4>⚠️ Advertencia Importante</h4>
+            <p>Este proveedor tiene <strong>{{ proveedor.productos.count }} producto(s)</strong> asociados. 
+            Si eliminas este proveedor, también se eliminarán todos sus productos.</p>
+            
+            <div class="affected-products">
+                <h5>Productos que se eliminarán:</h5>
+                <ul>
+                    {% for producto in proveedor.productos.all|slice:":5" %}
+                    <li>{{ producto.nombre_producto }} - ${{ producto.precio }}</li>
+                    {% endfor %}
+                    {% if proveedor.productos.count > 5 %}
+                    <li>... y {{ proveedor.productos.count|add:"-5" }} más</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        <p class="warning-text">Esta acción no se puede deshacer.</p>
+
+        <form method="post" class="confirmation-form">
+            {% csrf_token %}
+            <div class="confirmation-actions">
+                <button type="submit" class="btn btn-danger">🗑️ Sí, Eliminar Proveedor y Productos</button>
+                <a href="{% url 'proveedores:detalle_proveedor' proveedor.id_proveedor %}" class="btn btn-secondary">↶ Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
